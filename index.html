@@ -1,0 +1,79 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>T‑Shirt Inventory</title>
+  <meta name="theme-color" content="#111827" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="https://unpkg.com/@zxing/browser@latest"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="app-bar">
+    <h1>🧾 T‑Shirt Inventory</h1>
+    <div class="actions">
+      <button id="exportCsvBtn" class="btn">Export CSV</button>
+      <div class="scan-controls">
+        <label class="segmented">
+          <input type="radio" name="scanAction" value="retrieve" checked>
+          <span>Retrieve</span>
+        </label>
+        <label class="segmented">
+          <input type="radio" name="scanAction" value="sub1">
+          <span>−1</span>
+        </label>
+        <label class="segmented">
+          <input type="radio" name="scanAction" value="add1">
+          <span>+1</span>
+        </label>
+        <button id="scanBtn" class="btn primary">Scan</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="summary" id="summary"></section>
+    <section>
+      <table class="inv-table" id="invTable" aria-label="Inventory list">
+        <thead>
+          <tr>
+            <th>Style</th>
+            <th>Size</th>
+            <th>Barcode</th>
+            <th class="qty">Qty</th>
+            <th class="controls">Adjust</th>
+          </tr>
+        </thead>
+        <tbody id="invBody"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <dialog id="scannerDialog">
+    <div class="dialog-title">
+      <h2 id="scanTitle">Scan</h2>
+      <button id="closeScanner" aria-label="Close" class="icon-btn">✕</button>
+    </div>
+    <div class="video-wrap">
+      <video id="video" autoplay playsinline></video>
+    </div>
+    <p class="hint">Point the camera at a code like <code>M-S</code> or <code>W-3XL</code>. One‑shot scan will close automatically.</p>
+  </dialog>
+
+  <footer class="footer">
+    <small>Works offline. Install via <b>Share → Add to Home Screen</b> on iPhone.</small>
+  </footer>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(console.error);
+      });
+    }
+  </script>
+</body>
+</html>
